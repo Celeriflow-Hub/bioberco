@@ -28,11 +28,50 @@ const ACCEPTED_TYPES = [
   "image/heif",
 ];
 
+function maskPhone(v: string): string {
+  const d = v.replace(/\D/g, "").slice(0, 11);
+  if (d.length <= 2) return d.length ? `(${d}` : "";
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+}
+
+async function optimizeImage(file: File): Promise<File> {
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
+    return file;
+  if (file.size <= 1.5 * 1024 * 1024) return file;
+  try {
+    const bitmap = await createImageBitmap(file);
+    const MAX = 1920;
+    const scale = Math.min(1, MAX / Math.max(bitmap.width, bitmap.height));
+    const w = Math.round(bitmap.width * scale);
+    const h = Math.round(bitmap.height * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return file;
+    ctx.drawImage(bitmap, 0, 0, w, h);
+    if (typeof bitmap.close === "function") bitmap.close();
+    const blob = await new Promise<Blob | null>((res) =>
+      canvas.toBlob(res, "image/jpeg", 0.85),
+    );
+    if (!blob) return file;
+    return new File([blob], file.name.replace(/\.\w+$/, "") + ".jpg", {
+      type: "image/jpeg",
+    });
+  } catch {
+    return file;
+  }
+}
+
 export function SightingForm() {
   const fileRef = useRef<HTMLInputElement>(null);
+  const honeyRef = useRef<HTMLInputElement>(null);
   const [photo, setPhoto] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [photoError, setPhotoError] = useState<string | null>(null);
+  const [photoProcessing, setPhotoProcessing] = useState(false);
 
   const [gps, setGps] = useState<GpsState>("idle");
   const [lat, setLat] = useState("");
@@ -50,7 +89,7 @@ export function SightingForm() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [protocol, setProtocol] = useState<string | null>(null);
 
-  function onPhoto(file: File | undefined) {
+  async function onPhoto(file: File | undefined) {
     setPhotoError(null);
     if (!file) return;
     if (!ACCEPTED_TYPES.includes(file.type)) {
@@ -61,8 +100,14 @@ export function SightingForm() {
       setPhotoError("Imagem deve ter até 12 MB.");
       return;
     }
-    setPhoto(file);
-    setPreview(URL.createObjectURL(file));
+    setPhotoProcessing(true);
+    try {
+      const optimized = await optimizeImage(file);
+      setPhoto(optimized);
+      setPreview(URL.createObjectURL(optimized));
+    } finally {
+      setPhotoProcessing(false);
+    }
   }
 
   function captureGps() {
@@ -107,7 +152,8 @@ export function SightingForm() {
       e.lng = "Longitude inválida (-180 a 180).";
     if (address.trim().length < 5) e.address = "Descreva o ponto de referência.";
     if (name.trim().length < 3) e.name = "Informe seu nome completo.";
-    if (phone.trim().length < 8) e.phone = "Informe um telefone válido.";
+    if (phone.replace(/\D/g, "").length < 10)
+      e.phone = "Informe um telefone válido com DDD.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))
       e.email = "Informe um e-mail válido.";
     if (!consent) e.consent = "É necessário aceitar o uso dos dados.";
@@ -123,6 +169,7 @@ export function SightingForm() {
     try {
       const fd = new FormData();
       fd.append("photo", photo);
+      fd.append("website", honeyRef.current?.value ?? "");
       fd.append("latitude", String(Number(lat)));
       fd.append("longitude", String(Number(lng)));
       if (accuracy != null) fd.append("accuracyMeters", String(accuracy));
@@ -162,6 +209,7 @@ export function SightingForm() {
     setConsent(false);
     setProtocol(null);
     setFieldErrors({});
+    if (honeyRef.current) honeyRef.current.value = "";
   }
 
   if (protocol) {
@@ -256,6 +304,11 @@ export function SightingForm() {
                   </button>
                 </div>
               </div>
+            )}
+            {photoProcessing && (
+              <p className="mt-1 text-sm text-emerald-700">
+                Otimizando imagem para envio...
+              </p>
             )}
             {photoError && <p className="mt-1 text-sm text-red-600">{photoError}</p>}
             {fieldErrors.photo && <p className="mt-1 text-sm text-red-600">{fieldErrors.photo}</p>}
@@ -368,7 +421,7 @@ export function SightingForm() {
                   autoComplete="tel"
                   inputMode="tel"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => setPhone(maskPhone(e.target.value))}
                   placeholder="(31) 99999-9999"
                   className="mt-1 min-h-11 w-full rounded-xl border border-slate-200 px-3"
                 />
@@ -418,9 +471,18 @@ export function SightingForm() {
             </p>
           )}
 
+          <input
+            ref={honeyRef}
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="hidden"
+          />
           <button
             type="submit"
-            disabled={sending}
+            disabled={sending || photoProcessing}
             className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-700 px-6 font-bold text-white disabled:opacity-60"
           >
             {sending ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}

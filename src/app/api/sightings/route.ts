@@ -15,6 +15,22 @@ function num(v: FormDataEntryValue | null): number | null {
   return Number.isFinite(n) ? n : NaN;
 }
 
+// Rate-limit simples em memória (por instância): 10 envios/min por IP.
+const hits = new Map<string, number[]>();
+function rateLimited(ip: string): boolean {
+  const now = Date.now();
+  const arr = (hits.get(ip) ?? []).filter((t) => now - t < 60_000);
+  arr.push(now);
+  hits.set(ip, arr);
+  return arr.length > 10;
+}
+
+function clientIp(req: Request): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown"
+  );
+}
+
 export async function POST(req: Request) {
   let form: FormData;
   try {
@@ -27,6 +43,24 @@ export async function POST(req: Request) {
   }
 
   const photo = form.get("photo");
+
+  // Honeypot: bots preenchem o campo invisível; finge sucesso sem salvar.
+  const honey = form.get("website");
+  if (typeof honey === "string" && honey.trim() !== "") {
+    return NextResponse.json({
+      success: true,
+      protocol: generateProtocol(),
+      persisted: false,
+    });
+  }
+
+  if (rateLimited(clientIp(req))) {
+    return NextResponse.json(
+      { success: false, error: "Muitas tentativas. Aguarde um minuto." },
+      { status: 429 },
+    );
+  }
+
   if (!(photo instanceof File) || photo.size <= 0) {
     return NextResponse.json(
       { success: false, error: "Foto é obrigatória." },
