@@ -22,7 +22,7 @@ export function OfficialLinkBar() {
 
   return (
     <div className="bg-amber-400 text-emerald-950">
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center">
         <p className="min-w-0 flex-1 truncate text-sm font-medium">
           <span className="font-bold">Link Oficial do Projeto: </span>
           {url}
@@ -51,3 +51,4 @@ export function OfficialLinkBar() {
     </div>
   );
 }
+

@@ -3,7 +3,7 @@ import { projectContent } from "@/content/project";
 
 export function Hero() {
   return (
-    <section className="mx-auto w-full max-w-4xl px-4 pt-6">
+    <section className="mx-auto w-full max-w-6xl px-4 pt-6">
       <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-emerald-100">
         <p className="inline-block rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-700 ring-1 ring-red-200">
           {projectContent.hero.badge}
@@ -29,3 +29,4 @@ export function Hero() {
     </section>
   );
 }
+

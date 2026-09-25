@@ -3,11 +3,11 @@ import { projectContent } from "@/content/project";
 
 export function IdentificationGuide() {
   return (
-    <section className="mx-auto w-full max-w-4xl px-4 pt-6" aria-labelledby="guia">
+    <section className="mx-auto w-full max-w-6xl px-4 pt-6" aria-labelledby="guia">
       <h2 id="guia" className="text-xl font-bold text-emerald-950">
         Como reconhecer o {projectContent.speciesName} no campo
       </h2>
-      <div className="mt-3 grid gap-3 sm:grid-cols-3">
+      <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {projectContent.guide.map((card) => (
           <article
             key={card.title}
@@ -37,3 +37,4 @@ export function IdentificationGuide() {
     </section>
   );
 }
+

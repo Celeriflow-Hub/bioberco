@@ -6,7 +6,7 @@ export default function Privacidade() {
   return (
     <div className="flex min-h-screen flex-col bg-emerald-50">
       <Header />
-      <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-6">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
         <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-emerald-100">
           <h1 className="text-2xl font-bold text-emerald-950">
             Política de Privacidade — BIOBERÇO
@@ -51,3 +51,4 @@ export default function Privacidade() {
     </div>
   );
 }
+

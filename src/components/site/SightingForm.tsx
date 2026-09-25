@@ -166,7 +166,7 @@ export function SightingForm() {
 
   if (protocol) {
     return (
-      <section className="mx-auto w-full max-w-4xl px-4 pb-10 pt-6">
+      <section className="mx-auto w-full max-w-6xl px-4 pb-10 pt-6">
         <div className="rounded-3xl bg-white p-6 text-center shadow-sm ring-1 ring-emerald-100">
           <CheckCircle2 size={48} className="mx-auto text-emerald-600" />
           <h2 className="mt-2 text-xl font-bold text-emerald-950">
@@ -195,7 +195,7 @@ export function SightingForm() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-4xl px-4 pb-10 pt-6" aria-labelledby="registrar">
+    <section className="mx-auto w-full max-w-6xl px-4 pb-10 pt-6" aria-labelledby="registrar">
       <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-emerald-100">
         <h2 id="registrar" className="text-xl font-bold text-emerald-950">
           Viu uma árvore com essas características? Registre aqui!
@@ -206,6 +206,7 @@ export function SightingForm() {
         </p>
 
         <form onSubmit={onSubmit} noValidate className="mt-4 space-y-6">
+          <div className="grid gap-6 lg:grid-cols-2">
           <div>
             <h3 className="font-bold text-emerald-900">1. Foto da árvore *</h3>
             <input
@@ -340,6 +341,7 @@ export function SightingForm() {
               {fieldErrors.address && <p className="text-sm text-red-600">{fieldErrors.address}</p>}
             </div>
           </div>
+          </div>
 
           <div>
             <h3 className="font-bold text-emerald-900">3. Seus dados para contato</h3>
@@ -429,3 +431,4 @@ export function SightingForm() {
     </section>
   );
 }
+
