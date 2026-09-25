@@ -3,8 +3,8 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import {
-  Camera,
   CheckCircle2,
+  CloudUpload,
   Loader2,
   LocateFixed,
   RefreshCw,
@@ -243,7 +243,7 @@ export function SightingForm() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 pb-10 pt-6" aria-labelledby="registrar">
+    <section id="registrar" className="mx-auto w-full max-w-6xl scroll-mt-4 px-4 pb-10 pt-6" aria-labelledby="registrar">
       <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-emerald-100">
         <h2 id="registrar" className="text-xl font-bold text-emerald-950">
           Viu uma árvore com essas características? Registre aqui!
@@ -269,11 +269,14 @@ export function SightingForm() {
               <button
                 type="button"
                 onClick={() => fileRef.current?.click()}
-                className="mt-2 flex min-h-24 w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/50 p-4 text-emerald-800"
+                className="mt-2 flex min-h-32 w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/50 p-6 text-emerald-800"
               >
-                <Camera size={28} />
+                <CloudUpload size={32} />
                 <span className="text-sm font-semibold">
-                  Tirar foto ou escolher da galeria
+                  Clique para enviar ou tirar a foto da árvore
+                </span>
+                <span className="text-xs text-slate-500">
+                  Pode usar a câmera do celular
                 </span>
               </button>
             ) : (
@@ -325,7 +328,7 @@ export function SightingForm() {
               type="button"
               onClick={captureGps}
               disabled={gps === "loading"}
-              className="mt-2 inline-flex min-h-11 items-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-semibold text-white disabled:opacity-60"
+              className="mt-2 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-semibold text-white disabled:opacity-60"
             >
               {gps === "loading" ? (
                 <Loader2 size={16} className="animate-spin" />
