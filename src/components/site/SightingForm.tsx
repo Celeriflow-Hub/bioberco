@@ -121,22 +121,19 @@ export function SightingForm() {
     if (!validate() || !photo) return;
     setSending(true);
     try {
+      const fd = new FormData();
+      fd.append("photo", photo);
+      fd.append("latitude", String(Number(lat)));
+      fd.append("longitude", String(Number(lng)));
+      if (accuracy != null) fd.append("accuracyMeters", String(accuracy));
+      fd.append("addressReference", address.trim());
+      fd.append("observerName", name.trim());
+      fd.append("observerPhone", phone.trim());
+      fd.append("observerEmail", email.trim());
+      fd.append("consent", "true");
       const res = await fetch("/api/sightings", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          latitude: Number(lat),
-          longitude: Number(lng),
-          accuracyMeters: accuracy,
-          addressReference: address.trim(),
-          observerName: name.trim(),
-          observerPhone: phone.trim(),
-          observerEmail: email.trim(),
-          consent: true,
-          photoName: photo.name,
-          photoSize: photo.size,
-          photoType: photo.type,
-        }),
+        body: fd,
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -182,8 +179,8 @@ export function SightingForm() {
             {protocol}
           </p>
           <p className="mt-2 text-xs text-slate-500">
-            Guarde este protocolo. Base Vercel: persistência em banco entra na
-            Fase 3.
+            Guarde este protocolo. Sem banco configurado, o registro é
+            provisório e será persistido na Fase 3 (Neon + Blob).
           </p>
           <button
             type="button"

@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SightingStatus {
+  PENDING_VALIDATION
+  VALIDATED
+  REJECTED
+  NEEDS_INFORMATION
+}
+
+model Sighting {
+  id               String         @id @default(uuid()) @db.Uuid
+  protocol         String         @unique
+  photoUrl         String
+  photoStorageKey  String?
+  latitude         Decimal        @db.Decimal(10, 7)
+  longitude        Decimal        @db.Decimal(10, 7)
+  accuracyMeters   Decimal?       @db.Decimal(8, 2)
+  addressReference String         @db.Text
+  observerName     String
+  observerPhone    String
+  observerEmail    String
+  consentAcceptedAt DateTime
+  status           SightingStatus @default(PENDING_VALIDATION)
+  internalNotes    String?        @db.Text
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  forwardings      SightingForwarding[]
+
+  @@index([status, createdAt])
+}
+
+model SightingForwarding {
+  id           String   @id @default(uuid()) @db.Uuid
+  sightingId   String   @db.Uuid
+  sighting     Sighting @relation(fields: [sightingId], references: [id], onDelete: Cascade)
+  institution  String
+  sentAt       DateTime @default(now())
+  status       String
+  externalRef  String?
+  errorMessage String?  @db.Text
+
+  @@index([sightingId])
+}
