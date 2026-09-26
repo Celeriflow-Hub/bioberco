@@ -4,7 +4,7 @@ export const projectContent = {
   school: "SESI Sete Lagoas/MG",
   challenge: "FLL Innovation Challenge",
   speciesName: "Faveiro-de-Wilson",
-  initialMappedTrees: 240,
+  initialMappedTrees: 246,
   worldEstimate: 246,
   officialUrl:
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://bioberco-beelego.vercel.app",
@@ -36,7 +36,7 @@ export const projectContent = {
     {
       step: "3. Rara em Minas",
       title: "Rara e Ameaçada",
-      text: "Apenas cerca de 240 exemplares foram identificados em Minas Gerais. Cada nova árvore encontrada é essencial para a conservação.",
+      text: "Apenas cerca de 246 exemplares conhecidos no mundo, todos em Minas Gerais. Cada nova árvore encontrada é essencial para a conservação.",
       image: "/images/faveiro/faveiro-folhas.jpg",
       imageAlt: "Folhas divididas em pequenas folhinhas verdes de Faveiro-de-Wilson",
     },

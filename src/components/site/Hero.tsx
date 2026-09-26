@@ -57,7 +57,7 @@ export function Hero() {
               {projectContent.initialMappedTrees}
             </p>
             <p className="text-xs text-emerald-100">
-              árvores mapeadas em Minas Gerais
+              árvores dessa espécie no mundo — todas em Minas Gerais
             </p>
           </div>
         </div>

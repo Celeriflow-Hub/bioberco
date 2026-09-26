@@ -227,8 +227,8 @@ export function SightingForm() {
             {protocol}
           </p>
           <p className="mt-2 text-xs text-slate-500">
-            Guarde este protocolo. Sem banco configurado, o registro é
-            provisório e será persistido na Fase 3 (Neon + Blob).
+            Guarde este protocolo. Ele será usado para acompanhar a validação
+            do registro junto à equipe BIOBERÇO.
           </p>
           <button
             type="button"
