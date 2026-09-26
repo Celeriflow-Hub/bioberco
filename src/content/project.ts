@@ -15,7 +15,7 @@ export const projectContent = {
     titleA: "Viu um Faveiro-de-Wilson?",
     titleB: "Envie a foto e a localização aqui!",
     description:
-      "Existem apenas cerca de 246 árvores desta espécie no mundo. Com este aplicativo criado pela equipe Bee Lego (SESI), você aprende a reconhecer a árvore e ajuda os cientistas a cuidarem dela.",
+      "Existem apenas cerca de 246 árvores dessa espécie no mundo, todas encontradas em Minas Gerais. Com o aplicativo criado pela equipe Bee Lego, do SESI, você aprende a reconhecer o faveiro-de-Wilson e pode contribuir com biólogos e pesquisadores no monitoramento e na proteção dessa espécie ameaçada.",
   },
   guide: [
     {
@@ -40,9 +40,60 @@ export const projectContent = {
       image: "/images/faveiro/faveiro-folhas.jpg",
       imageAlt: "Folhas divididas em pequenas folhinhas verdes de Faveiro-de-Wilson",
     },
+    {
+      step: "4. Porte da Árvore",
+      title: "Árvore Alta e Longeva",
+      bullets: [
+        "Pode chegar a 18 m de altura.",
+        "O tronco pode chegar a 1,5 m de diâmetro.",
+        "Pode viver mais de 100 anos.",
+      ],
+      image: "/images/faveiro/faveiro-tronco.jpg",
+      imageAlt:
+        "Troncos de Faveiro-de-Wilson em campo aberto, mostrando porte de grande árvore",
+    },
+    {
+      step: "5. Folhas",
+      title: "Folhas Grandes e Bipinadas",
+      bullets: [
+        "Folhas grandes e bipinadas.",
+        "Possuem vários pares de pinas.",
+        "Os folíolos têm cerca de 3 a 5 cm.",
+      ],
+      image: "/images/faveiro/faveiro-foliolos.jpg",
+      imageAlt: "Folhas bipinadas de Faveiro-de-Wilson com vários pares de pinas",
+    },
+    {
+      step: "6. Folíolos",
+      title: "Folíolos Aveludados",
+      text: "Têm cerca de 3 a 5 cm, são ligeiramente aveludados e fazem parte de folhas grandes e bipinadas.",
+      image: "/images/faveiro/faveiro-foliolos.jpg",
+      imageAlt: "Detalhe dos folíolos aveludados de 3 a 5 cm do Faveiro-de-Wilson",
+    },
+    {
+      step: "7. Flores",
+      title: "Flores Amarelas no Verão",
+      bullets: [
+        "Surgem entre dezembro e fevereiro.",
+        "Formam cachos de pequenas flores amarelas.",
+      ],
+      image: "/images/faveiro/faveiro-flores.jpg",
+      imageAlt:
+        "Cachos de pequenas flores amarelas do Faveiro-de-Wilson entre dezembro e fevereiro",
+    },
+    {
+      step: "8. Casca",
+      title: "Casca Acinzentada",
+      bullets: [
+        "Geralmente acinzentada e um pouco áspera.",
+        "Não se desprende facilmente em placas.",
+      ],
+      image: "/images/faveiro/faveiro-tronco.jpg",
+      imageAlt: "Detalhe da casca acinzentada e áspera do tronco do Faveiro-de-Wilson",
+    },
   ],
   photoCredit:
-    "Fotos ilustrativas: Livia Dias / iNaturalist (CC BY-NC). Serão substituídas por fotos oficiais da equipe.",
+    "Fotos de campo: equipe BIOBERÇO. Fotos ilustrativas complementares: Livia Dias / iNaturalist (CC BY-NC).",
   footer: {
     line1: "BIOBERÇO • Projeto de Inovação FLL 2026",
     line2: "Desenvolvido pela Equipe Bee Lego — Escola SESI Sete Lagoas / MG",

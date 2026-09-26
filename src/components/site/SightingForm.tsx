@@ -245,6 +245,19 @@ export function SightingForm() {
   return (
     <section id="registrar" className="mx-auto w-full max-w-6xl scroll-mt-4 px-4 pb-10 pt-6" aria-labelledby="registrar">
       <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-emerald-100">
+        <div
+          role="note"
+          aria-label="Aviso de preservação"
+          className="mb-4 rounded-2xl bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-amber-200"
+        >
+          <strong className="block font-bold">
+            Não é necessário tocar, coletar ou danificar a árvore.
+          </strong>
+          <span>
+            Apenas fotografe o exemplar e registre sua localização. A
+            identificação será validada por pesquisadores.
+          </span>
+        </div>
         <h2 id="registrar" className="text-xl font-bold text-emerald-950">
           Viu uma árvore com essas características? Registre aqui!
         </h2>
@@ -335,7 +348,7 @@ export function SightingForm() {
               ) : (
                 <LocateFixed size={16} />
               )}
-              {gps === "loading" ? "Buscando localização..." : "Pegar Minha Localização Atual"}
+              {gps === "loading" ? "Buscando localização..." : "Usar minha localização atual"}
             </button>
             {gps !== "idle" && gps !== "loading" && (
               <button

@@ -41,7 +41,17 @@ export function IdentificationGuide() {
             </div>
             <div className="p-4">
               <h3 className="font-bold text-emerald-950">{card.title}</h3>
-              <p className="mt-1 text-sm text-slate-600">{card.text}</p>
+              {"bullets" in card && card.bullets ? (
+                <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-slate-600">
+                  {(card.bullets as readonly string[]).map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-1 text-sm text-slate-600">
+                  {"text" in card ? card.text : ""}
+                </p>
+              )}
             </div>
           </article>
         ))}
